@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ניהול סרטים</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #movie-list { margin-top: 20px; }
+        .movie-item { border: 1px solid #ddd; padding: 10px; margin: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h1>מערכת ניהול סרטים</h1>
+    <input type="text" id="movie-title" placeholder="הכנס שם סרט">
+    <button onclick="addMovie()">הוסף סרט</button>
+    <div id="movie-list"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadMovies);
+
+        function addMovie() {
+            let title = document.getElementById("movie-title").value;
+            if (!title) return;
+            
+            let movies = JSON.parse(localStorage.getItem("movies")) || [];
+            movies.push({ id: Date.now(), title });
+            localStorage.setItem("movies", JSON.stringify(movies));
+            document.getElementById("movie-title").value = "";
+            loadMovies();
+        }
+
+        function loadMovies() {
+            let movieList = document.getElementById("movie-list");
+            movieList.innerHTML = "";
+            let movies = JSON.parse(localStorage.getItem("movies")) || [];
+            
+            movies.forEach(movie => {
+                let div = document.createElement("div");
+                div.classList.add("movie-item");
+                div.innerHTML = `${movie.title} <button onclick="deleteMovie(${movie.id})">❌</button>`;
+                movieList.appendChild(div);
+            });
+        }
+
+        function deleteMovie(id) {
+            let movies = JSON.parse(localStorage.getItem("movies")) || [];
+            movies = movies.filter(movie => movie.id !== id);
+            localStorage.setItem("movies", JSON.stringify(movies));
+            loadMovies();
+        }
+    </script>
+</body>
+</html>

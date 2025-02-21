@@ -22,32 +22,50 @@
         function addMovie() {
             let title = document.getElementById("movie-title").value;
             if (!title) return;
-            
-            let movies = JSON.parse(localStorage.getItem("movies")) || [];
-            movies.push({ id: Date.now(), title });
-            localStorage.setItem("movies", JSON.stringify(movies));
+
+            const request = new FXMLHttpRequest();
+            request.open('POST', '/api/movies', true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.onload = () => {
+                const response = JSON.parse(request.responseText);
+                if (response.status === 201) {
+                    alert('הסרט נוסף בהצלחה!');
+                    loadMovies();
+                } else {
+                    alert('שגיאה בהוספת הסרט.');
+                }
+            };
+
+            const movieData = JSON.stringify({ name: title, description: 'סרט חדש' });
+            request.send(movieData);
             document.getElementById("movie-title").value = "";
-            loadMovies();
         }
 
         function loadMovies() {
-            let movieList = document.getElementById("movie-list");
-            movieList.innerHTML = "";
-            let movies = JSON.parse(localStorage.getItem("movies")) || [];
-            
-            movies.forEach(movie => {
-                let div = document.createElement("div");
-                div.classList.add("movie-item");
-                div.innerHTML = `${movie.title} <button onclick="deleteMovie(${movie.id})">❌</button>`;
-                movieList.appendChild(div);
-            });
+            const request = new FXMLHttpRequest();
+            request.open('GET', '/api/movies', true);
+            request.onload = () => {
+                const movies = JSON.parse(request.responseText);
+                let movieList = document.getElementById("movie-list");
+                movieList.innerHTML = "";
+                movies.forEach(movie => {
+                    let div = document.createElement("div");
+                    div.classList.add("movie-item");
+                    div.innerHTML = `${movie.name} <button onclick="deleteMovie('${movie.id}')">❌</button>`;
+                    movieList.appendChild(div);
+                });
+            };
+            request.send();
         }
 
         function deleteMovie(id) {
-            let movies = JSON.parse(localStorage.getItem("movies")) || [];
-            movies = movies.filter(movie => movie.id !== id);
-            localStorage.setItem("movies", JSON.stringify(movies));
-            loadMovies();
+            const request = new FXMLHttpRequest();
+            request.open('DELETE', `/api/movies/${id}`, true);
+            request.onload = () => {
+                alert('הסרט נמחק בהצלחה!');
+                loadMovies();
+            };
+            request.send();
         }
     </script>
 </body>

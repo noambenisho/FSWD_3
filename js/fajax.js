@@ -5,6 +5,7 @@ class FXMLHttpRequest {
         this.async = true;
         this.headers = {};
         this.responseText = '';
+        this.status = 0;  // נוסיף שדה סטטוס
         this.onload = null;
     }
 
@@ -21,6 +22,7 @@ class FXMLHttpRequest {
     send(data = null) {
         Network.sendRequest(this.method, this.url, this.headers, data, (response) => {
             this.responseText = JSON.stringify(response);
+            this.status = response.status || 200;  // נוסיף סטטוס נכון
             if (this.onload) this.onload();
         });
     }

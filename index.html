@@ -9,64 +9,73 @@
         #movie-list { margin-top: 20px; }
         .movie-item { border: 1px solid #ddd; padding: 10px; margin: 5px; display: inline-block; }
     </style>
+    <link rel="stylesheet" href="css\client.css">
+    <script src="js\client.js"></script>
+    <script src="js\AuthServer.js"></script>
+    <script src="js\db.js"></script>
+    <script src="js\network.js"></script>
+    
+    <script src="js\SPAmanage.js"></script>
+    <script src="js\user.js"></script>
 </head>
 <body>
-    <h1>מערכת ניהול סרטים</h1>
-    <input type="text" id="movie-title" placeholder="הכנס שם סרט">
-    <button onclick="addMovie()">הוסף סרט</button>
-    <div id="movie-list"></div>
+    <!-- Login Page -->
+    <div class="background">
+        <form id="loginPage" class="form-container" onsubmit="loginUser(event)">
+            <h1>Login</h1>
+            <input type="text" placeholder="Username or Email" required>
+            <input type="password" placeholder="Password" required>
+            <div id="login-message" class="message"></div> 
+            <button type="submit" class="btn">Login</button>
+            <p class="switch-form">Not registered? <span onclick="navigateTo('registerPage')">Sign up here</span></p>
+        </form>
+    </div>
+        
+    <!-- Register Page -->
+    <div id="registerPage" class="form-container hidden">
+        <h1>Sign Up</h1>
+        <form id="signup-form" onsubmit="registerUser(event)">
+            <input type="text" placeholder="Username" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="number" id="age" placeholder="Enter your age" min="10" max="120" required>
+            <label>Gender:</label>
+            <div class="radio-container">
+                <input type="radio" id="male" name="gender" value="male" required>
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female" required>
+                <label for="female">Female</label>
+            </div>
+            <label>Favorite Movie Genres:</label>
+            <div class="checkbox-container">
+                <input type="checkbox" id="action" name="genres" value="action">
+                <label for="action">Action</label>
+                <input type="checkbox" id="comedy" name="genres" value="comedy">
+                <label for="comedy">Comedy</label>
+                <input type="checkbox" id="drama" name="genres" value="drama">
+                <label for="drama">Drama</label>
+                <input type="checkbox" id="romance" name="genres" value="romance">
+                <label for="romance">Romance</label>
+                <input type="checkbox" id="animation" name="genres" value="animation">
+                <label for="animation">Animation</label>
+                <input type="checkbox" id="documentary" name="genres" value="documentary">
+                <label for="documentary">Documentary</label>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <p>Already have an account? <span onclick="navigateTo('loginPage')">Login here</span></p>
+    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", loadMovies);
+    <!-- Movie Management Page -->
+    <div id="moviesPage" class="form-container hidden">
+        <h1>Movie Management System</h1>
+        <input type="text" id="movie-title" placeholder="Enter movie title">
+        <button onclick="addMovie()">Add Movie</button>
+        <div id="movie-list"></div>
+        <button onclick="logoutUser()">Logout</button>
+    </div>
 
-        function addMovie() {
-            let title = document.getElementById("movie-title").value;
-            if (!title) return;
-
-            const request = new FXMLHttpRequest();
-            request.open('POST', '/api/movies', true);
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.onload = () => {
-                const response = JSON.parse(request.responseText);
-                if (response.status === 201) {
-                    alert('הסרט נוסף בהצלחה!');
-                    loadMovies();
-                } else {
-                    alert('שגיאה בהוספת הסרט.');
-                }
-            };
-
-            const movieData = JSON.stringify({ name: title, description: 'סרט חדש' });
-            request.send(movieData);
-            document.getElementById("movie-title").value = "";
-        }
-
-        function loadMovies() {
-            const request = new FXMLHttpRequest();
-            request.open('GET', '/api/movies', true);
-            request.onload = () => {
-                const movies = JSON.parse(request.responseText);
-                let movieList = document.getElementById("movie-list");
-                movieList.innerHTML = "";
-                movies.forEach(movie => {
-                    let div = document.createElement("div");
-                    div.classList.add("movie-item");
-                    div.innerHTML = `${movie.name} <button onclick="deleteMovie('${movie.id}')">❌</button>`;
-                    movieList.appendChild(div);
-                });
-            };
-            request.send();
-        }
-
-        function deleteMovie(id) {
-            const request = new FXMLHttpRequest();
-            request.open('DELETE', `/api/movies/${id}`, true);
-            request.onload = () => {
-                alert('הסרט נמחק בהצלחה!');
-                loadMovies();
-            };
-            request.send();
-        }
-    </script>
+    <script src="js\fajax.js"></script>
+    <script src="js\movieServer.js"></script>
 </body>
 </html>

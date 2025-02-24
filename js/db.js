@@ -7,7 +7,7 @@ const MoviesDB = {
         localStorage.setItem('movies', JSON.stringify(movies));
     },
     deleteMovie: (id) => {
-        let movies = DB.getMovies();
+        let movies = MoviesDB.getMovies();
         movies = movies.filter(movie => movie.id !== id);
         localStorage.setItem('movies', JSON.stringify(movies));
     }

@@ -18,7 +18,7 @@ class FXMLHttpRequest {
     send(data = null) {
         Network.sendRequest(this.method, this.url, data, (response) => {
             this.responseText = JSON.stringify(response);
-            this.status = response.status || 200;  // נוסיף סטטוס נכון
+            //this.status = response.status || 200;  // נוסיף סטטוס נכון
             if (this.onload) this.onload();
         });
     }

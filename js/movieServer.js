@@ -2,7 +2,7 @@ const MovieServer = {
     handleRequest: (method, url, data, callback) => {
         if (method === 'GET') {// בלי אינדקס 
             const movies = MoviesDB.getMovies();
-            callback(movies);
+            callback({status : 201, message : movies});
         }else if (method === 'GET') { // עם אינקדס
             //##########################
         } else if (method === 'POST') {

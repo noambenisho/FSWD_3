@@ -16,6 +16,6 @@ const Network = {
             } else {
                 callback({ status: 404, message: 'Not Found' });
             }
-        }, Math.random() * 2000 + 1000);  // השהיה של 1-3 שניות
+            }, Math.random() * 2000 + 1000);  // השהיה של 1-3 שניות
     }
 };

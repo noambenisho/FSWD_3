@@ -16,9 +16,7 @@ const AuthDB = {
     getUsers: () => JSON.parse(localStorage.getItem('users')) || [],
     addUser: (user) => {
         const users = AuthDB.getUsers();
-        users.push(user);
+        users[user.username] = user;
         localStorage.setItem('users', JSON.stringify(users));
     },
 };
-
-

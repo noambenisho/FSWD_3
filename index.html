@@ -27,7 +27,7 @@
             <input type="password" placeholder="Password" required>
             <div id="login-message" class="message"></div> 
             <button type="submit" class="btn">Login</button>
-            <p class="switch-form">Not registered? <span onclick="navigateTo('registerPage')">Sign up here</span></p>
+            <p class="switch-form">Not registered? <span id="link" onclick="navigateTo('registerPage')">Sign up here</span></p>
         </form>
     </div>
         
@@ -39,14 +39,15 @@
             <input type="email" placeholder="Email" required>
             <input type="password" placeholder="Password" required>
             <input type="number" id="age" placeholder="Enter your age" min="10" max="120" required>
-            <label>Gender:</label>
-            <div class="radio-container">
-                <input type="radio" id="male" name="gender" value="male" required>
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="gender" value="female" required>
-                <label for="female">Female</label>
+            <div class="toggle-container">
+                <label class="toggle-label">Gender:</label>
+                <span id="gender-text">Male</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="gender-toggle">
+                    <span class="slider"></span>
+                </label>
             </div>
-            <label>Favorite Movie Genres:</label>
+            <label>What are your favorite genres:</label>
             <div class="checkbox-container">
                 <input type="checkbox" id="action" name="genres" value="action">
                 <label for="action">Action</label>
@@ -54,16 +55,12 @@
                 <label for="comedy">Comedy</label>
                 <input type="checkbox" id="drama" name="genres" value="drama">
                 <label for="drama">Drama</label>
-                <input type="checkbox" id="romance" name="genres" value="romance">
-                <label for="romance">Romance</label>
                 <input type="checkbox" id="animation" name="genres" value="animation">
                 <label for="animation">Animation</label>
-                <input type="checkbox" id="documentary" name="genres" value="documentary">
-                <label for="documentary">Documentary</label>
             </div>
             <button type="submit" class="btn">Sign Up</button>
         </form>
-        <p>Already have an account? <span onclick="navigateTo('loginPage')">Login here</span></p>
+        <p>Already have an account? <span id="link" onclick="navigateTo('loginPage')">Login here</span></p>
     </div>
 
     <!-- Movie Management Page -->
@@ -74,6 +71,13 @@
         <div id="movie-list"></div>
         <button onclick="logoutUser()">Logout</button>
     </div>
+
+    <script>
+        document.getElementById("gender-toggle").addEventListener("change", function() {
+            const genderText = document.getElementById("gender-text");
+            genderText.textContent = this.checked ? "Female" : "Male";
+        });
+    </script>
 
     <script src="js\fajax.js"></script>
     <script src="js\movieServer.js"></script>

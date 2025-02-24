@@ -1,16 +1,21 @@
 const MovieServer = {
     handleRequest: (method, url, data, callback) => {
-        const movies = DB.getMovies();
-        if (method === 'GET') {
+        if (method === 'GET') {// בלי אינדקס 
+            const movies = MoviesDB.getMovies();
             callback(movies);
+        }else if (method === 'GET') { // עם אינקדס
+            //##########################
         } else if (method === 'POST') {
             const movie = JSON.parse(data);
-            DB.addMovie(movie);
+            MoviesDB.addMovie(movie);
             callback({ status: 201, message: 'Movie added successfully' });
+        } else if (method === 'PUT') {
+            //##########################
         } else if (method === 'DELETE') {
             const id = url.split('/').pop();
-            DB.deleteMovie(id);
+            MoviesDB.deleteMovie(id);
             callback({ status: 200, message: 'Movie deleted successfully' });
         }
+
     }
 };

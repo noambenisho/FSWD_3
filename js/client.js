@@ -4,18 +4,18 @@ function addMovie() {
 
     const request = new FXMLHttpRequest();
     request.open('POST', '/api/movies', true);
-    request.setRequestHeader('Content-Type', 'application/json');
+    //request.setRequestHeader('Content-Type', 'application/json');
 
     const movieData = JSON.stringify({ name: title, description: 'סרט חדש' });
-    request.onload = () => {
-        const response = JSON.parse(request.responseText);
-        if (response.status === 201) {
-            alert('הסרט נוסף בהצלחה!');
-            loadMovies();
-        } else {
-            alert('שגיאה בהוספת הסרט.');
-        }
-    };
+    // request.onload = () => {
+    //     const response = JSON.parse(request.responseText);
+    //     if (response.status === 201 || response.status === 200) {
+    //         alert('הסרט נוסף בהצלחה!');
+    //         loadMovies();
+    //     } else {
+    //         alert('שגיאה בהוספת הסרט.');
+    //     }
+    // };
     request.send(movieData);
     document.getElementById("movie-title").value = "";
 }

@@ -1,12 +1,12 @@
 const AuthServer = {
     handleRequest: (method, url, data, callback) => {
-        const users = DB.getUsers();
+        const users = AuthDB.getUsers();
         if (url.endsWith('/register') && method === 'POST') {
             const user = JSON.parse(data);
             if (users.some(u => u.username === user.username)) {
                 callback({ status: 400, message: 'User already exists' });
             } else {
-                DB.addUser(user);
+                AuthDB.addUser(user);
                 callback({ status: 201, message: 'User registered successfully' });
             }
         } else if (url.endsWith('/login') && method === 'POST') {

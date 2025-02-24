@@ -15,15 +15,15 @@ class FXMLHttpRequest {
         this.async = async;
     }
 
-    setRequestHeader(header, value) {
-        this.headers[header] = value;
-    }
-
     send(data = null) {
-        Network.sendRequest(this.method, this.url, this.headers, data, (response) => {
+        Network.sendRequest(this.method, this.url, data, (response) => {
             this.responseText = JSON.stringify(response);
             this.status = response.status || 200;  // נוסיף סטטוס נכון
             if (this.onload) this.onload();
         });
     }
+
+    // setRequestHeader(header, value) {
+    //     this.headers[header] = value;
+    // }
 }

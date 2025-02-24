@@ -37,19 +37,19 @@ function navigateTo(page) {
     history.pushState(null, "", `#${page}`);
 }
 
-// פונקציה להתחברות
-function loginUser(event) {
-    event.preventDefault();
-    const username = event.target[0].value;
-    const password = event.target[1].value;
+// // פונקציה להתחברות
+// function loginUser(event) {
+//     event.preventDefault();
+//     const username = event.target[0].value;
+//     const password = event.target[1].value;
 
-    if (username === "admin" && password === "1234") { // לדוגמה בלבד
-        currentUser = { username };
-        navigateTo('movies');
-    } else {
-        alert("שם משתמש או סיסמה שגויים");
-    }
-}
+//     if (username === "admin" && password === "1234") { // לדוגמה בלבד
+//         currentUser = { username };
+//         navigateTo('movies');
+//     } else {
+//         alert("שם משתמש או סיסמה שגויים");
+//     }
+// }
 
 // פונקציה להרשמה
 function registerUser(event) {
@@ -67,29 +67,29 @@ function logout() {
 // משתנה גלובלי לשמירת המשתמש המחובר
 let currentUser = null;
 
-// פונקציה לטעינת סרטים
-function loadMovies() {
-    const movieList = document.getElementById('movie-list');
-    movieList.innerHTML = '';
+// // פונקציה לטעינת סרטים
+// function loadMovies() {
+//     const movieList = document.getElementById('movie-list');
+//     movieList.innerHTML = '';
 
-    const movies = [
-        { title: "סרט 1", description: "תיאור של סרט 1" },
-        { title: "סרט 2", description: "תיאור של סרט 2" },
-    ];
+//     const movies = [
+//         { title: "סרט 1", description: "תיאור של סרט 1" },
+//         { title: "סרט 2", description: "תיאור של סרט 2" },
+//     ];
 
-    movies.forEach(movie => {
-        const div = document.createElement("div");
-        div.classList.add("movie-item");
-        div.innerHTML = `${movie.title} - ${movie.description}`;
-        movieList.appendChild(div);
-    });
-}
+//     movies.forEach(movie => {
+//         const div = document.createElement("div");
+//         div.classList.add("movie-item");
+//         div.innerHTML = `${movie.title} - ${movie.description}`;
+//         movieList.appendChild(div);
+//     });
+// }
 
-// פונקציה להוספת סרט חדש
-function addMovie() {
-    const title = document.getElementById('movie-title').value;
-    if (title) {
-        alert(`הסרט "${title}" נוסף בהצלחה!`);
-        loadMovies();
-    }
-}
+// // פונקציה להוספת סרט חדש
+// function addMovie() {
+//     const title = document.getElementById('movie-title').value;
+//     if (title) {
+//         alert(`הסרט "${title}" נוסף בהצלחה!`);
+//         loadMovies();
+//     }
+// }

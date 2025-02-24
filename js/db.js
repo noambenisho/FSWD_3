@@ -1,7 +1,7 @@
 const MoviesDB = {
     getMovies: () => JSON.parse(localStorage.getItem('movies')) || [],
     addMovie: (movie) => {
-        const movies = DB.getMovies();
+        const movies = MoviesDB.getMovies();
         movie.id = Date.now().toString();
         movies.push(movie);
         localStorage.setItem('movies', JSON.stringify(movies));
@@ -15,7 +15,7 @@ const MoviesDB = {
 const AuthDB = {
     getUsers: () => JSON.parse(localStorage.getItem('users')) || [],
     addUser: (user) => {
-        const users = DB.getUsers();
+        const users = AuthDB.getUsers();
         users.push(user);
         localStorage.setItem('users', JSON.stringify(users));
     },

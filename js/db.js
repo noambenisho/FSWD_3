@@ -10,7 +10,19 @@ const MoviesDB = {
         let movies = MoviesDB.getMovies();
         movies = movies.filter(movie => movie.id !== id);
         localStorage.setItem('movies', JSON.stringify(movies));
-    }
+    },
+    getMovie: (id) => {
+        const movies = MoviesDB.getMovies();
+        return movies.find(movie => movie.id === id) || null;
+    },
+
+    editMovie: (id, updatedMovie) => {
+        let movies = MoviesDB.getMovies();
+        movies = movies.map(movie => 
+            movie.id === id ? { ...movie, ...updatedMovie } : movie
+        );
+        localStorage.setItem('movies', JSON.stringify(movies));
+    },
 };
 const AuthDB = {
     getUsers: () => JSON.parse(localStorage.getItem('users')) || [],

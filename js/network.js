@@ -4,7 +4,7 @@ const Network = {
         console.log(`Network: Sending ${method} request to ${url}`);
 
         const randomValue = Math.random();  // קבלת מספר רנדומלי בין 0 ל-1
-        if (randomValue >= 0.1 && randomValue <= 0.15) {//###########change to 0.5 instede of 0.15// השמטה בהסתברות של 10% עד 50% בעקבות הרשת
+        if (randomValue > 0.1 && randomValue < 0.1) {//###########change to 0.5 instede of 0.15// השמטה בהסתברות של 10% עד 50% בעקבות הרשת
             callback({ status: 0, message: 'Failed to fetch' });
             return;
         }
@@ -16,6 +16,6 @@ const Network = {
             } else {
                 callback({ status: 404, message: 'Not Found' });
             }
-            }, Math.random() * 2000 + 1000);  // השהיה של 1-3 שניות
+            }, Math.random() * 2 + 1); //2000 + 1000);  // השהיה של 1-3 שניות
     }
 };

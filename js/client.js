@@ -33,6 +33,8 @@ function loadMovies() {
                     <h3>${movie.name}</h3>
                     <p>${movie.description}</p>
                     <button onclick="deleteMovie('${movie.id}')">מחק</button>
+                    <button onclick="edit('${movie.id}')">עדכן</button>
+                    <button onclick="getMovie('${movie.id}')">הצגת בלעדית</button>
                 `;
                 moviesList.appendChild(movieCard);
             });
@@ -58,3 +60,28 @@ function deleteMovie(id) {
     };
     request.send();
 }
+
+function getMovie(id) {
+    const request = new FXMLHttpRequest();
+    request.open('GET', `/api/movies/${id}`, true);
+    request.onload = function() {
+        const moviesResponse = JSON.parse(request.responseText);
+        if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
+            const movie = moviesResponse.message; // נניח שהסרט נמצא במפתח message
+            const moviesList = document.getElementById('movie-list');
+            moviesList.className = 'movie-card';
+            moviesList.innerHTML = `            
+            <h2>${movie.name}</h2>
+            <p>${movie.description}</p>
+            <button onclick="deleteMovie('${movie.id}')">מחק</button>
+            <button onclick="edit('${movie.id}')">עדכן</button>
+            <button onclick="getMovie('${movie.id}')">הצגת בלעדית</button>`;
+
+            alert('הסרט עלה בהצלחה');
+        } else {
+            alert('שגיאה בעת העלאת הסרט');
+        }
+    };
+    request.send();
+}
+

@@ -19,7 +19,7 @@ class FXMLHttpRequest {
         Network.sendRequest(this.method, this.url, data, (response) => {
             this.responseText = JSON.stringify(response);
             this.status = response.status || 200;  // נוסיף סטטוס נכון
-            //this.success = response.success || false;  // נוסיף שדה הצלחה
+            this.success = response.success || false;  // נוסיף שדה הצלחה
             if (this.onload) this.onload(); 
         });
     }

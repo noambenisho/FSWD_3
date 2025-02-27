@@ -1,73 +1,82 @@
+const failedAttempts = {}; // מפת משתמשים שנכשלו
+
 const AuthServer = {
     handleRequest: (method, url, data, callback) => {
         const users = AuthDB.getUsers();
-        
+
         if (url.endsWith('/register') && method === 'POST') {
             const user = JSON.parse(data);
             const usersArray = Object.values(users);
 
-            // בדיקה אם המשתמש כבר קיים
             if (usersArray.some(u => u.username === user.username)) {
                 callback({ status: 400, message: 'User already exists' });
             } else {
-                AuthDB.addUser(user); // הוספת המשתמש לבסיס הנתונים
+                AuthDB.addUser(user);
                 callback({ status: 200, message: 'User registered successfully', success: true, username: user.username });
             }
-        } else if (url.endsWith('/login') && method === 'POST') {
-            // המרת הנתונים לאובייקט אחד (ולא מערך)
+        } 
+        else if (url.endsWith('/login') && method === 'POST') {
             const user = JSON.parse(data);
-
-            // אם users הוא אובייקט, השתמש ב-Object.values כדי להמיר אותו למערך
             const usersArray = Object.values(users);
-            
-            // חיפוש המשתמש בנתונים
-            const validUser = usersArray.find(u => u.username === user.username && u.password === user.password);
-            if (validUser) {
-                callback({ status: 200, message: 'Login successful' });
-            } else {
-                callback({ status: 401, message: 'Invalid credentials' });
+            const now = Date.now();
+            const lockDuration = 2 * 60 * 100; // 2 דקות
+
+            const validUser = usersArray.find(u => u.username === user.username);
+
+            if (!validUser) {
+                return callback({ status: 400, message: 'User does not exist' });
             }
-        } else if (url.endsWith('/logout') && method === 'POST') {
+
+            // בדיקה אם המשתמש חסום
+            if (failedAttempts[user.username] && failedAttempts[user.username].lockUntil > now) {
+                let remainingTime = Math.ceil((failedAttempts[user.username].lockUntil - now) / 1000);
+                
+                // עדכון זמן נעילה כל שנייה
+                const interval = setInterval(() => {
+                    remainingTime--;
+                    if (remainingTime <= 0) {
+                        delete failedAttempts[user.username]; // שחרור הנעילה
+                        clearInterval(interval);
+                    }
+                }, 1000);
+
+                return callback({ status: 403, message: `User locked. Try again in ${remainingTime} seconds.`, remainingTime });
+            }
+
+            // בדיקה אם הסיסמה נכונה
+            if (validUser.password === user.password) {
+                delete failedAttempts[user.username]; // איפוס ניסיונות כושלים
+                return callback({ status: 200, message: 'Login successful', success: true, username: validUser.username });
+            } else {
+                failedAttempts[user.username] = failedAttempts[user.username] || { count: 0, lockUntil: 0 };
+                failedAttempts[user.username].count++;
+
+                if (failedAttempts[user.username].count >= 3) {
+                    failedAttempts[user.username].lockUntil = now + lockDuration;
+                    failedAttempts[user.username].count = 0;
+
+                    let remainingTime = lockDuration / 1000;
+
+                    // עדכון זמן הנעילה כל שנייה
+                    const interval = setInterval(() => {
+                        remainingTime--;
+                        if (remainingTime <= 0) {
+                            delete failedAttempts[user.username]; // שחרור הנעילה
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+
+                    return callback({ status: 403, message: `Too many failed attempts. Locked for ${remainingTime} seconds.`, remainingTime });
+                } else {
+                    return callback({
+                        status: 401,
+                        message: `Incorrect password. ${3 - failedAttempts[user.username].count} attempts remaining.`,
+                    });
+                }
+            }
+        } 
+        else if (url.endsWith('/logout') && method === 'POST') {
             callback({ status: 200, message: 'Logout successful', success: true });
         }
-        
     }
 };
-
-const failedAttempts = {}; // מפת משתמשים שנכשלו
-
-app.post("/login", (req, res) => {
-    const { usernameOrEmail, password } = req.body;
-    const user = findUser(usernameOrEmail);
-
-    if (!user) {
-        return res.status(400).json({ success: false, message: "User does not exist." });
-    }
-
-    const now = Date.now();
-    const lockDuration = 2 * 60 * 1000; // 2 דקות
-
-    if (failedAttempts[user.username] && failedAttempts[user.username].lockUntil > now) {
-        const remainingTime = Math.ceil((failedAttempts[user.username].lockUntil - now) / 1000);
-        return res.status(403).json({ success: false, locked: true, remainingTime });
-    }
-
-    if (user.password === password) {
-        delete failedAttempts[user.username]; // מאפסים ניסיונות כושלים
-        return res.json({ success: true, username: user.username });
-    } else {
-        failedAttempts[user.username] = failedAttempts[user.username] || { count: 0, lockUntil: 0 };
-        failedAttempts[user.username].count++;
-
-        if (failedAttempts[user.username].count >= 3) {
-            failedAttempts[user.username].lockUntil = now + lockDuration;
-            failedAttempts[user.username].count = 0;
-            return res.status(403).json({ success: false, locked: true, remainingTime: lockDuration / 1000 });
-        } else {
-            return res.status(401).json({
-                success: false,
-                message: `סיסמה שגויה. נותרו עוד ${3 - failedAttempts[user.username].count} ניסיונות.`,
-            });
-        }
-    }
-});

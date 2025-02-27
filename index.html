@@ -74,6 +74,28 @@
     <div id="moviesManagementPage" class="form-container page hidden">
         <h1>Movie Management System</h1>
         <input type="text" id="movie-title" placeholder="Enter movie title">
+        <input type="number" id="movie-year" placeholder="Enter movie year" min="1980" max="2025">
+        <input type="number" id="movie-rating" placeholder="Enter movie rating" min="1" max="10">
+        <input type="text" id="movie-poster" placeholder="Enter link to the movie poster" required>
+        <div class="toggle-container">
+            <label class="toggle-label">18+:</label>
+            <span id="movie-adult">No</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="18+-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <label>What genre is the movie?:</label>
+        <div class="checkbox-container" id="movie-genre">
+            <input type="checkbox" id="action" name="genres" value="action">
+            <label for="action">Action</label>
+            <input type="checkbox" id="comedy" name="genres" value="comedy">
+            <label for="comedy">Comedy</label>
+            <input type="checkbox" id="drama" name="genres" value="drama">
+            <label for="drama">Drama</label>
+            <input type="checkbox" id="animation" name="genres" value="animation">
+            <label for="animation">Animation</label>
+        </div>
         <button onclick="addMovie()">Add Movie</button>
         <div id="movie-list"></div>
         <button onclick="navigateTo('moviesPage')">back to favorite movies</button>
@@ -84,6 +106,11 @@
         document.getElementById("gender-toggle").addEventListener("change", function() {
             const genderText = document.getElementById("gender-text");
             genderText.textContent = this.checked ? "Female" : "Male";
+        });
+
+        document.getElementById("18+-toggle").addEventListener("change", function() {
+            const genderText = document.getElementById("movie-adult");
+            genderText.textContent = this.checked ? "Yes" : "No";
         });
     </script>
 

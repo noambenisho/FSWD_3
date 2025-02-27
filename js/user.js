@@ -16,7 +16,6 @@ function navigateTo(section) {
     page.classList.remove("hidden");
 }
 
-
 // מחכה לטעינת העמוד ומגדיר ניתוב מתאים
 document.addEventListener('DOMContentLoaded', () => {
     navigateTo(location.hash.slice(1) || 'login');

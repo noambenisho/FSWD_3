@@ -53,7 +53,7 @@ function deleteMovie(id) {
     const moviesResponse = JSON.parse(request.responseText);
     if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
         alert('הסרט נמחק בהצלחה');
-        loadMovies();
+        uploadMovies();
     } else {
         alert('שגיאה בעת מחיקת הסרט');
     }
@@ -85,8 +85,6 @@ function getMovie(id) {
     request.send();
 }
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('currentUser')) {
         navigateTo('moviesPage');
@@ -97,25 +95,75 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function uploadMovies() {
-    const movies = [
-        { id: 1, title: "Inception", image: "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg" },
-        { id: 2, title: "Interstellar", image: "https://m.media-amazon.com/images/I/91JnoM0khKL._AC_UF894,1000_QL80_.jpg" },
-        { id: 3, title: "The Dark Knight", image: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg" }
-    ];
+    //Putting default movies into a rich initial state
+    const isMoviesAreEmpty = localStorage.getItem("movies");
+    if (!isMoviesAreEmpty) {
+        const id = Date.now().toString();
+        const movies = [
+            {
+              name: "Inception",
+              year: 2010,
+              image: "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg",
+              genre: ["Sci-Fi", "Action"],
+              ageRestriction: "PG-13",
+              id: id,
+            },
+            {
+              name: "The Dark Knight",
+              year: 2008,
+              image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+              genre: ["Action", "Crime", "Drama"],
+              ageRestriction: "PG-13",
+              id: id+1,
+            },
+            {
+              name: "Interstellar",
+              year: 2008,
+              image: "https://m.media-amazon.com/images/I/91JnoM0khKL._AC_UF894,1000_QL80_.jpg",
+              genre: ["Action", "Crime", "Drama"],
+              ageRestriction: "PG-13",
+              id: id+2,
+            }];
+        localStorage.setItem("movies", JSON.stringify(movies));
+    }    
+    // const moviesGrid = document.getElementById("moviesGrid");
+    // moviesGrid.innerHTML = "";
+    // movies.forEach(movie => {
+    //     const movieCard = document.createElement("div");
+    //     movieCard.classList.add("movie-card");
+    //     movieCard.innerHTML = `
+    //         <img src="${movie.image}" alt="${movie.title}">
+    //         <div class="movie-buttons">
+    //             <button onclick="deleteMovie(${movie.id})"><i class="fas fa-trash"></i></button>
+    //             <button onclick="getMovie('${movie.title}')"><i class="fas fa-info-circle"></i></button>
+    //         </div>
+    //     `;
+    //     moviesGrid.appendChild(movieCard);
+    // });
 
-    const moviesGrid = document.getElementById("moviesGrid");
-    moviesGrid.innerHTML = "";
-
-    movies.forEach(movie => {
-        const movieCard = document.createElement("div");
-        movieCard.classList.add("movie-card");
-        movieCard.innerHTML = `
-            <img src="${movie.image}" alt="${movie.title}">
-            <div class="movie-buttons">
-                <button onclick="deleteMovie(${movie.id})"><i class="fas fa-trash"></i></button>
-                <button onclick="getMovie('${movie.title}')"><i class="fas fa-info-circle"></i></button>
-            </div>
-        `;
-        moviesGrid.appendChild(movieCard);
-    });
+    const request = new FXMLHttpRequest();
+    request.open('GET', '/api/movies', true);
+    request.onload =  function() {
+        const moviesResponse = JSON.parse(request.responseText);
+        if (moviesResponse.status === 201 || moviesResponse.status === 200) {
+            const moviesList = document.getElementById('moviesGrid');
+            moviesList.innerHTML = '';
+            moviesResponse.message.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.classList.add("movie-card");
+                movieCard.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <div class="movie-buttons">
+                        <button onclick="deleteMovie(${movie.id})"><i class="fas fa-trash"></i></button>
+                        <button onclick="getMovie('${movie.title}')"><i class="fas fa-info-circle"></i></button>
+                    </div>
+                `;
+                moviesGrid.appendChild(movieCard);
+            });
+            alert('הסרטים עלו בהצלחה');
+        } else {
+            alert('שגיאה בהעלאת הסרטים.');
+        }
+    };
+    request.send();
 }

@@ -1,8 +1,31 @@
 // פונקציה להחלפת תצוגת דפים ב-SPA
 function navigateTo(section) {
-    document.querySelectorAll(".form-container").forEach(page => page.classList.add("hidden"));
-    document.getElementById(section).classList.remove("hidden");
+    const page = document.getElementById(section);
+    if (!page) {
+        console.error(`Error: Page '${section}' not found.`);
+        return;
+    }
+
+    if (section === "moviesPage") {
+        document.getElementById("background").style.display = "none";
+    } else {
+        document.getElementById("background").style.display = "block";
+    }
+
+    document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
+    page.classList.remove("hidden");
 }
+
+
+// מחכה לטעינת העמוד ומגדיר ניתוב מתאים
+document.addEventListener('DOMContentLoaded', () => {
+    navigateTo(location.hash.slice(1) || 'login');
+});
+
+// מאזין לשינוי כתובת ה-URL
+window.addEventListener('hashchange', () => {
+    navigateTo(location.hash.slice(1) || 'login');
+});
 
 // פונקציה לרישום משתמשים
 function registerUser(event) {

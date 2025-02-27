@@ -9,19 +9,18 @@
         #movie-list { margin-top: 20px; }
         .movie-item { border: 1px solid #ddd; padding: 10px; margin: 5px; display: inline-block; }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css\client.css">
     <script src="js\client.js"></script>
     <script src="js\AuthServer.js"></script>
     <script src="js\DB.js"></script>
     <script src="js\network.js"></script>
-    
-    <script src="js\SPAmanage.js"></script>
     <script src="js\user.js"></script>
 </head>
 <body>
     <!-- Login Page -->
-    <div class="background">
-        <form id="loginPage" class="form-container" onsubmit="loginUser(event)">
+    <div id="background" class="background">
+        <form id="loginPage" class="form-container page" onsubmit="loginUser(event)">
             <h1>Login</h1>
             <input type="text" placeholder="Username" required>
             <input type="password" placeholder="Password" required>
@@ -32,7 +31,7 @@
     </div>
         
     <!-- Register Page -->
-    <div id="registerPage" class="form-container hidden">
+    <div id="registerPage" class="form-container page hidden">
         <h1>Sign Up</h1>
         <form id="signup-form" onsubmit="registerUser(event)">
             <input type="text" placeholder="Username" required>
@@ -63,12 +62,21 @@
         <p>Already have an account? <span id="link" onclick="navigateTo('loginPage')">Login here</span></p>
     </div>
 
+    <!-- Movies Page -->
+    <div id="moviesPage" class="page hidden">
+        <h1>🎬 My Favorite Movies</h1>
+        <div class="movies-grid" id="moviesGrid"></div>
+        <button onclick="navigateTo('moviesManagementPage')">Manage Movies</button>
+        <button onclick="logoutUser()">Logout</button>
+    </div>    
+
     <!-- Movie Management Page -->
-    <div id="moviesPage" class="form-container hidden">
+    <div id="moviesManagementPage" class="form-container page hidden">
         <h1>Movie Management System</h1>
         <input type="text" id="movie-title" placeholder="Enter movie title">
         <button onclick="addMovie()">Add Movie</button>
         <div id="movie-list"></div>
+        <button onclick="navigateTo('moviesPage')">back to favorite movies</button>
         <button onclick="logoutUser()">Logout</button>
     </div>
 

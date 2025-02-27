@@ -85,3 +85,37 @@ function getMovie(id) {
     request.send();
 }
 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('currentUser')) {
+        navigateTo('moviesPage');
+    } else {
+        navigateTo('loginPage');        
+    }
+    uploadMovies();
+});
+
+function uploadMovies() {
+    const movies = [
+        { id: 1, title: "Inception", image: "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg" },
+        { id: 2, title: "Interstellar", image: "https://m.media-amazon.com/images/I/91JnoM0khKL._AC_UF894,1000_QL80_.jpg" },
+        { id: 3, title: "The Dark Knight", image: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg" }
+    ];
+
+    const moviesGrid = document.getElementById("moviesGrid");
+    moviesGrid.innerHTML = "";
+
+    movies.forEach(movie => {
+        const movieCard = document.createElement("div");
+        movieCard.classList.add("movie-card");
+        movieCard.innerHTML = `
+            <img src="${movie.image}" alt="${movie.title}">
+            <div class="movie-buttons">
+                <button onclick="deleteMovie(${movie.id})"><i class="fas fa-trash"></i></button>
+                <button onclick="getMovie('${movie.title}')"><i class="fas fa-info-circle"></i></button>
+            </div>
+        `;
+        moviesGrid.appendChild(movieCard);
+    });
+}

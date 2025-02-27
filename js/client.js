@@ -1,5 +1,10 @@
 function addMovie() {
     let title = document.getElementById("movie-title").value;
+    let year = document.getElementById("movie-year").value;
+    let rating = document.getElementById("movie-rating").value;
+    let image = document.getElementById("movie-poster").value;
+    let adult = document.getElementById("movie-adult").checked;
+    let genre = Array.from(document.querySelectorAll("#movie-genre input[name='genres']:checked")).map(checkbox => checkbox.value);
     if (!title) return;
 
     const request = new FXMLHttpRequest();
@@ -13,38 +18,43 @@ function addMovie() {
             alert('שגיאה בהוספת הסרט.');
         }
       };
-    const movieData = JSON.stringify({ name: title, description: 'סרט חדש' });
+    const movieData = JSON.stringify({ name: title, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
     document.getElementById("movie-title").value = "";
+    document.getElementById("movie-year").value = "";
+    document.getElementById("movie-rating").value = "";
+    document.getElementById("movie-poster").value = "";         
+    document.getElementById("movie-adult").checked = false;
+    document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
 }
 
-function loadMovies() {
-    const request = new FXMLHttpRequest();
-    request.open('GET', '/api/movies', true);
-    request.onload =  function() {
-        const moviesResponse = JSON.parse(request.responseText);
-        if (moviesResponse.status === 201 || moviesResponse.status === 200) {
-            const moviesList = document.getElementById('movie-list');
-            moviesList.innerHTML = '';
-            moviesResponse.message.forEach(movie => {
-                const movieCard = document.createElement('div');
-                movieCard.className = 'movie-card';
-                movieCard.innerHTML = `
-                    <h3>${movie.name}</h3>
-                    <p>${movie.description}</p>
-                    <button onclick="deleteMovie('${movie.id}')">מחק</button>
-                    <button onclick="edit('${movie.id}')">עדכן</button>
-                    <button onclick="getMovie('${movie.id}')">הצגת בלעדית</button>
-                `;
-                moviesList.appendChild(movieCard);
-            });
-            alert('הסרטים עלו בהצלחה');
-        } else {
-            alert('שגיאה בהעלאת הסרטים.');
-        }
-    };
-    request.send();
-}
+// function loadMovies() {
+//     const request = new FXMLHttpRequest();
+//     request.open('GET', '/api/movies', true);
+//     request.onload =  function() {
+//         const moviesResponse = JSON.parse(request.responseText);
+//         if (moviesResponse.status === 201 || moviesResponse.status === 200) {
+//             const moviesList = document.getElementById('movie-list');
+//             moviesList.innerHTML = '';
+//             moviesResponse.message.forEach(movie => {
+//                 const movieCard = document.createElement('div');
+//                 movieCard.className = 'movie-card';
+//                 movieCard.innerHTML = `
+//                     <h3>${movie.name}</h3>
+//                     <p>${movie.description}</p>
+//                     <button onclick="deleteMovie('${movie.id}')">מחק</button>
+//                     <button onclick="edit('${movie.id}')">עדכן</button>
+//                     <button onclick="getMovie('${movie.id}')">הצגת בלעדית</button>
+//                 `;
+//                 moviesList.appendChild(movieCard);
+//             });
+//             alert('הסרטים עלו בהצלחה');
+//         } else {
+//             alert('שגיאה בהעלאת הסרטים.');
+//         }
+//     };
+//     request.send();
+// }
 
 function deleteMovie(id) {
     const request = new FXMLHttpRequest();
@@ -89,9 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('currentUser')) {
         navigateTo('moviesPage');
     } else {
-        navigateTo('loginPage');        
+        navigateTo('loginPage');
     }
-    uploadMovies();
+    loadMovies();
 });
 
 function uploadMovies() {

@@ -65,7 +65,9 @@
     <!-- Movies Page -->
     <div id="moviesPage" class="page hidden">
         <h1>🎬 My Favorite Movies</h1>
-        <div class="movies-grid" id="moviesGrid"></div>
+        <div id="moviesContainer">
+            <div class="movies-grid" id="moviesGrid"></div>
+        </div>        
         <button onclick="navigateTo('moviesManagementPage')">Manage Movies</button>
         <button onclick="logoutUser()">Logout</button>
     </div>    
@@ -97,6 +99,7 @@
             <label for="animation">Animation</label>
         </div>
         <button onclick="addMovie()">Add Movie</button>
+        <button id="editModeBtn" onclick="editMovie()">Edit Movie</button>
         <div id="movie-list"></div>
         <button onclick="navigateTo('moviesPage')">back to favorite movies</button>
         <button onclick="logoutUser()">Logout</button>

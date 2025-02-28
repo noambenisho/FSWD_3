@@ -8,7 +8,6 @@ function navigateTo(section) {
 
     if (section === "moviesPage") {
         document.getElementById("background").style.display = "none";
-        uploadMovies();
     } else {
         document.getElementById("background").style.display = "block";
     }

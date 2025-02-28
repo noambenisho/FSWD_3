@@ -16,10 +16,10 @@ const MoviesDB = {
         return movies.find(movie => movie.id === id) || null;
     },
 
-    editMovie: (id, updatedMovie) => {
+    editMovie: (updatedMovie) => {
         let movies = MoviesDB.getMovies();
         movies = movies.map(movie => 
-            movie.id === id ? { ...movie, ...updatedMovie } : movie
+            movie.title === updatedMovie.title ? { ...movie, ...updatedMovie } : movie
         );
         localStorage.setItem('movies', JSON.stringify(movies));
     },

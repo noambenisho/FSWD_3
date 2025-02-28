@@ -68,7 +68,7 @@
         <div id="moviesContainer">
             <div class="movies-grid" id="moviesGrid"></div>
         </div>        
-        <button onclick="navigateTo('moviesManagementPage')">Manage Movies</button>
+        <button onclick="navigateTo('moviesManagementPage', 'add')">Add Movies</button>
         <button onclick="logoutUser()">Logout</button>
     </div>    
 
@@ -98,10 +98,10 @@
             <input type="checkbox" id="animation" name="genres" value="animation">
             <label for="animation">Animation</label>
         </div>
-        <button onclick="addMovie()">Add Movie</button>
-        <button id="editModeBtn" onclick="editMovie()">Edit Movie</button>
+        <button id="addBtn" onclick="addMovie()">Add Movie</button>
+        <button id="editBtn" onclick="editMovie()">Edit Movie</button>
         <div id="movie-list"></div>
-        <button onclick="navigateTo('moviesPage')">back to favorite movies</button>
+        <button id="back" onclick="navigateTo('moviesPage')">back to favorite movies</button>
         <button onclick="logoutUser()">Logout</button>
     </div>
 

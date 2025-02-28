@@ -53,16 +53,19 @@ function getMovie(id) {
     request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
-            navigateTo('moviesManagementPage')
+            navigateTo('moviesManagementPage', 'update');
             // editButton.style.display = "block";
             // addButton.style.display = "none";
-            document.getElementById("movie-title").value = moviesResponse.message.title;
+            document.getElementById("movie-title").value = moviesResponse.message.name;
             document.getElementById("movie-year").value = moviesResponse.message.year;
             document.getElementById("movie-rating").value = moviesResponse.message.rating;
             document.getElementById("movie-poster").value = moviesResponse.message.image;
             document.getElementById("movie-adult").checked = moviesResponse.message.adult;
-            //document.querySelectorAll("#movie-genre input[name='genres']:checked") = movie.message.genre;
-            alert('הסרט עלה בהצלחה');
+            const selectedGenres = moviesResponse.message.genre;
+            document.querySelectorAll("#movie-genre input[name='genres']").forEach(checkbox => {
+                checkbox.checked = selectedGenres.includes(checkbox.value);
+            });
+            //alert('הסרט עלה בהצלחה');
         } else {
             alert('שגיאה בעת העלאת הסרט');
         }

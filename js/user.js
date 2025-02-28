@@ -1,5 +1,5 @@
 // פונקציה להחלפת תצוגת דפים ב-SPA
-function navigateTo(section) {
+function navigateTo(section, type = "") {
     const page = document.getElementById(section);
     if (!page) {
         console.error(`Error: Page '${section}' not found.`);
@@ -10,6 +10,16 @@ function navigateTo(section) {
         document.getElementById("background").style.display = "none";
     } else {
         document.getElementById("background").style.display = "block";
+    }
+
+    if (section === "moviesManagementPage") {              
+        if (type === "add") {
+            document.getElementById("addBtn").style.display = "";
+            document.getElementById("editBtn").style.display = "none";
+        } else if (type === "update") {
+            document.getElementById("addBtn").style.display = "none";
+            document.getElementById("editBtn").style.display = "";
+        }
     }
 
     document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));

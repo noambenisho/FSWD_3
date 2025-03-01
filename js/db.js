@@ -19,7 +19,7 @@ const MoviesDB = {
     editMovie: (updatedMovie) => {
         let movies = MoviesDB.getMovies();
         movies = movies.map(movie => 
-            movie.title === updatedMovie.title ? { ...movie, ...updatedMovie } : movie
+            movie.name === updatedMovie.name ? { ...movie, ...updatedMovie } : movie
         );
         localStorage.setItem('movies', JSON.stringify(movies));
     },

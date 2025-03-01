@@ -1,5 +1,5 @@
 function addMovie() {
-    let title = document.getElementById("movie-title").value;
+    let name = document.getElementById("movie-title").value;
     let year = document.getElementById("movie-year").value;
     let rating = document.getElementById("movie-rating").value;
     let image = document.getElementById("movie-poster").value;
@@ -9,7 +9,7 @@ function addMovie() {
     }
     let adult = document.getElementById("movie-adult").checked;
     let genre = Array.from(document.querySelectorAll("#movie-genre input[name='genres']:checked")).map(checkbox => checkbox.value);
-    if (!title) return;
+    if (!name) return;
 
     const request = new FXMLHttpRequest();
     request.open('POST', '/api/movies', true);
@@ -22,7 +22,7 @@ function addMovie() {
             alert('שגיאה בהוספת הסרט.');
         }
       };
-    const movieData = JSON.stringify({ title: title, year: year, rating: rating, image: image, adult: adult, genre: genre });
+    const movieData = JSON.stringify({ name: name, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
     document.getElementById("movie-title").value = "";
     document.getElementById("movie-year").value = "";
@@ -86,7 +86,7 @@ function loadMovies() {
         const id = Date.now().toString();
         const movies = [
             {
-              title: "Inception",
+              name: "Inception",
               year: 2010,
               rating: 98,
               image: "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg",
@@ -95,7 +95,7 @@ function loadMovies() {
               id: id,
             },
             {
-              title: "The Dark Knight",
+              name: "The Dark Knight",
               year: 2008,
               rating: 85,
               image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
@@ -104,7 +104,7 @@ function loadMovies() {
               id: id+1,
             },
             {
-              title: "Interstellar",
+              name: "Interstellar",
               year: 2008,
               rating: 92,
               image: "https://m.media-amazon.com/images/I/91JnoM0khKL._AC_UF894,1000_QL80_.jpg",
@@ -127,7 +127,7 @@ function loadMovies() {
                 const movieCard = document.createElement("div");
                 movieCard.classList.add("movie-card");
                 movieCard.innerHTML = `
-                    <img src="${movie.image}" alt="${movie.title}">
+                    <img src="${movie.image}" alt="${movie.name}">
                     <div class="movie-buttons">
                         <button onclick="deleteMovie(${movie.id})"><i class="fas fa-trash"></i></button>
                         <button onclick="getMovie('${movie.id}')"><i class="fas fa-info-circle"></i></button>
@@ -153,7 +153,7 @@ function loadMovies() {
 }
 
 function editMovie(){
-    let title = document.getElementById("movie-title").value;
+    let name = document.getElementById("movie-title").value;
     let year = document.getElementById("movie-year").value;
     let rating = document.getElementById("movie-rating").value;
     let image = document.getElementById("movie-poster").value;
@@ -164,7 +164,7 @@ function editMovie(){
     let adult = document.getElementById("movie-adult").checked;
     let genre = Array.from(document.querySelectorAll("#movie-genre input[name='genres']:checked")).map(checkbox => checkbox.value);
     const request = new FXMLHttpRequest();
-    request.open('PUT', `/api/movies/${title}`, true);
+    request.open('PUT', `/api/movies/${name}`, true);
     request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
@@ -173,7 +173,7 @@ function editMovie(){
             alert('שגיאה בעת עדכון הסרט');
         }
     };
-    const movieData = JSON.stringify({ title: title, year: year, rating: rating, image: image, adult: adult, genre: genre });
+    const movieData = JSON.stringify({ name: name, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
 }
 

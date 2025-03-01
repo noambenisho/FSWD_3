@@ -8,6 +8,13 @@ function navigateTo(section, type = "") {
 
     if (section === "moviesPage") {
         document.getElementById("background").style.display = "none";
+        //to cleabn the manage fage.
+        document.getElementById("movie-title").value = "";
+        document.getElementById("movie-year").value = "";
+        document.getElementById("movie-rating").value = "";
+        document.getElementById("movie-poster").value = "";         
+        document.getElementById("movie-adult").checked = false;
+        document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);        
     } else {
         document.getElementById("background").style.display = "block";
     }

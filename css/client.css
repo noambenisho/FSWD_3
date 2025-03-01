@@ -375,3 +375,26 @@ input:checked + .slider:before {
 #moviesContainer::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+#logoutBtn {
+    position: fixed;
+    top: 15px;
+    left: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    font-size: 16px; /* הקטנת האייקון */
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#logoutBtn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}

@@ -18,6 +18,10 @@
     <script src="js\user.js"></script>
 </head>
 <body>
+    <button id="logoutBtn" onclick="logoutUser()">
+        <i class="fas fa-sign-out-alt"></i>
+    </button>
+    
     <!-- Login Page -->
     <div id="background" class="background">
         <form id="loginPage" class="form-container page" onsubmit="loginUser(event)">
@@ -69,7 +73,7 @@
             <div class="movies-grid" id="moviesGrid"></div>
         </div>        
         <!-- <button onclick="navigateTo('moviesManagementPage', 'add')">Add Movies</button> -->
-        <button onclick="logoutUser()">Logout</button>
+        <!-- <button onclick="logoutUser()">Logout</button> -->
     </div>    
 
     <!-- Movie Management Page -->
@@ -102,7 +106,7 @@
         <button id="editBtn" onclick="editMovie()">Edit Movie</button>
         <div id="movie-list"></div>
         <button id="back" onclick="navigateTo('moviesPage')">back to favorite movies</button>
-        <button onclick="logoutUser()">Logout</button>
+        <!-- <button onclick="logoutUser()">Logout</button> -->
     </div>
 
     <script>

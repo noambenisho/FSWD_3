@@ -22,7 +22,7 @@ function addMovie() {
             alert('שגיאה בהוספת הסרט.');
         }
       };
-    const movieData = JSON.stringify({ name: title, year: year, rating: rating, image: image, adult: adult, genre: genre });
+    const movieData = JSON.stringify({ title: title, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
     document.getElementById("movie-title").value = "";
     document.getElementById("movie-year").value = "";
@@ -38,7 +38,7 @@ function deleteMovie(id) {
     request.onload = function() {
     const moviesResponse = JSON.parse(request.responseText);
     if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
-        alert('הסרט נמחק בהצלחה');
+        // alert('הסרט נמחק בהצלחה');
         loadMovies();
     } else {
         alert('שגיאה בעת מחיקת הסרט');
@@ -56,7 +56,7 @@ function getMovie(id) {
             navigateTo('moviesManagementPage', 'update');
             // editButton.style.display = "block";
             // addButton.style.display = "none";
-            document.getElementById("movie-title").value = moviesResponse.message.name;
+            document.getElementById("movie-title").value = moviesResponse.message.title;
             document.getElementById("movie-year").value = moviesResponse.message.year;
             document.getElementById("movie-rating").value = moviesResponse.message.rating;
             document.getElementById("movie-poster").value = moviesResponse.message.image;
@@ -137,7 +137,7 @@ function loadMovies() {
                 `;
                 moviesGrid.appendChild(movieCard);
             });
-            alert('הסרטים עלו בהצלחה');
+            // alert('הסרטים עלו בהצלחה');
         } else {
             alert('שגיאה בהעלאת הסרטים.');
         }
@@ -161,7 +161,7 @@ function editMovie(){
     request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
-            alert('הסרט עודכן בהצלחה');
+            // alert('הסרט עודכן בהצלחה');
         } else {
             alert('שגיאה בעת עדכון הסרט');
         }

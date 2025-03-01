@@ -94,6 +94,30 @@ button, .btn {
     margin-top: 0px;
 }
 
+.add-movie {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px dashed white;
+    height: 200px;
+    width: 150px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-movie:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.add-movie-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
 button:hover, .btn:hover {
     background: orangered;
     font-size: 20px;
@@ -329,7 +353,6 @@ input:checked + .slider:before {
 .movie-card {
     width: 150px;
     padding: 10px;
-    background: white;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     text-align: center;

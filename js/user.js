@@ -16,6 +16,12 @@ function navigateTo(section, type = "") {
         if (type === "add") {
             document.getElementById("addBtn").style.display = "";
             document.getElementById("editBtn").style.display = "none";
+            document.getElementById("movie-title").value = "";
+            document.getElementById("movie-year").value = "";
+            document.getElementById("movie-rating").value = "";
+            document.getElementById("movie-poster").value = "";         
+            document.getElementById("movie-adult").checked = false;
+            document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
         } else if (type === "update") {
             document.getElementById("addBtn").style.display = "none";
             document.getElementById("editBtn").style.display = "";

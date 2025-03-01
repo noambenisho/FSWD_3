@@ -54,8 +54,6 @@ function getMovie(id) {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
             navigateTo('moviesManagementPage', 'update');
-            // editButton.style.display = "block";
-            // addButton.style.display = "none";
             document.getElementById("movie-title").value = moviesResponse.message.name;
             document.getElementById("movie-year").value = moviesResponse.message.year;
             document.getElementById("movie-rating").value = moviesResponse.message.rating;
@@ -65,7 +63,6 @@ function getMovie(id) {
             document.querySelectorAll("#movie-genre input[name='genres']").forEach(checkbox => {
                 checkbox.checked = selectedGenres.includes(checkbox.value);
             });
-            //alert('הסרט עלה בהצלחה');
         } else {
             alert('שגיאה בעת העלאת הסרט');
         }
@@ -120,11 +117,12 @@ function loadMovies() {
 
     const request = new FXMLHttpRequest();
     request.open('GET', '/api/movies', true);
-    request.onload =  function() {
+    request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {
             const moviesList = document.getElementById('moviesGrid');
             moviesList.innerHTML = '';
+
             moviesResponse.message.forEach(movie => {
                 const movieCard = document.createElement("div");
                 movieCard.classList.add("movie-card");
@@ -135,9 +133,18 @@ function loadMovies() {
                         <button onclick="getMovie('${movie.id}')"><i class="fas fa-info-circle"></i></button>
                     </div>
                 `;
-                moviesGrid.appendChild(movieCard);
+                moviesList.appendChild(movieCard);
             });
-            alert('הסרטים עלו בהצלחה');
+
+            const addCard = document.createElement("div");
+            addCard.classList.add("movie-card", "add-movie");
+            addCard.innerHTML = `
+                <button onclick="navigateTo('moviesManagementPage', 'add')" class="add-movie-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+            `;
+            moviesList.appendChild(addCard);
+
         } else {
             alert('שגיאה בהעלאת הסרטים.');
         }

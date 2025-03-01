@@ -14,7 +14,7 @@ const MovieServer = {
         } else if (method === 'PUT') {
             const movie = JSON.parse(data);
             MoviesDB.editMovie(movie);
-            callback({ status: 201, message: 'Movie edit successfully' });
+            callback({ status: 201, message: 'Movie update successfully' });
         } else if (method === 'DELETE') {
             MoviesDB.deleteMovie(id);
             callback({ status: 200, message: 'Movie deleted successfully' });

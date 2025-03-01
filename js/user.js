@@ -11,13 +11,7 @@ function navigateTo(section, type = "") {
 
     if (section === "moviesPage") {
         document.getElementById("background").style.display = "none";
-        //to cleabn the manage fage.
-        document.getElementById("movie-title").value = "";
-        document.getElementById("movie-year").value = "";
-        document.getElementById("movie-rating").value = "";
-        document.getElementById("movie-poster").value = "";         
-        document.getElementById("movie-adult").checked = false;
-        document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);        
+        clearMovieForm();      
     } else {
         document.getElementById("background").style.display = "block";
     }
@@ -26,12 +20,7 @@ function navigateTo(section, type = "") {
         if (type === "add") {
             document.getElementById("addBtn").style.display = "";
             document.getElementById("editBtn").style.display = "none";
-            document.getElementById("movie-title").value = "";
-            document.getElementById("movie-year").value = "";
-            document.getElementById("movie-rating").value = "";
-            document.getElementById("movie-poster").value = "";         
-            document.getElementById("movie-adult").checked = false;
-            document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
+            clearMovieForm();
         } else if (type === "update") {
             document.getElementById("addBtn").style.display = "none";
             document.getElementById("editBtn").style.display = "";
@@ -39,15 +28,19 @@ function navigateTo(section, type = "") {
     }
 }
 
-// מחכה לטעינת העמוד ומגדיר ניתוב מתאים
-document.addEventListener('DOMContentLoaded', () => {
-    navigateTo(location.hash.slice(1) || 'login');
-});
-
 // מאזין לשינוי כתובת ה-URL
 window.addEventListener('hashchange', () => {
     navigateTo(location.hash.slice(1) || 'login');
 });
+
+function clearMovieForm() {
+    document.getElementById("movie-title").value = "";
+    document.getElementById("movie-year").value = "";
+    document.getElementById("movie-rating").value = "";
+    document.getElementById("movie-poster").value = "";         
+    document.getElementById("movie-adult").checked = false;
+    document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
+}
 
 // פונקציה לרישום משתמשים
 function registerUser(event) {
@@ -68,7 +61,7 @@ function registerUser(event) {
         const response = JSON.parse(xhr.responseText);
         if (xhr.status === 200 && response.success) {
             localStorage.setItem("currentUser", response.username);
-            alert("Registration successful! Redirecting...");
+            //alert("Registration successful! Redirecting...");
             navigateTo("moviesPage");
         } else {
             alert(response.message);
@@ -77,18 +70,11 @@ function registerUser(event) {
     xhr.send(JSON.stringify(requestData));
 }
 
-// פונקציה לעדכון הודעה למשתמש
-function updateMessage(messageElement, message) {
-    messageElement.innerHTML = message;
-    messageElement.style.display = "block";
-}
-
 function loginUser(event) {
     event.preventDefault();
 
     const username = document.querySelector("#loginPage input[placeholder='Username']").value;
     const password = document.querySelector("#loginPage input[placeholder='Password']").value;
-    const messageElement = document.getElementById("login-message");
 
     const requestData = { username, password };
 
@@ -103,11 +89,10 @@ function loginUser(event) {
         } else if (xhr.status === 200 && response.success) {
             // התחברות מוצלחת - שמירת המשתמש והפניה לעמוד הסרטים
             localStorage.setItem("currentUser", response.username);
-            messageElement.style.display = "none";
+            loadMovies();
             navigateTo("moviesPage");
         } else {
-            // התחברות נכשלה - הצגת הודעה על ניסיונות כושלים
-            updateMessage(messageElement, response.message);
+            alert(response.message);
         }
     };
     xhr.send(JSON.stringify(requestData));
@@ -118,7 +103,6 @@ function handleLoginResponse(response) {
     if (response.status === 403 && response.remainingTime) {
         let remainingTime = response.remainingTime;
         
-        // עדכון ראשוני של ההודעה
         document.getElementById("login-message").innerText = `User locked. Try again in ${remainingTime} seconds.`;
 
         const countdown = setInterval(() => {

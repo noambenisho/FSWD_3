@@ -68,7 +68,8 @@
 
     <!-- Movies Page -->
     <div id="moviesPage" class="page hidden">
-        <h1>🎬 My Favorite Movies</h1>
+        <h1 id="hi"></h1>
+        <h2>My Favorite Movies 🎬</h2>
         <div id="moviesContainer">
             <div class="movies-grid" id="moviesGrid"></div>
         </div>
@@ -101,10 +102,15 @@
             <label for="animation">Animation</label>
         </div>
         <button id="addBtn" onclick="addMovie()">Add Movie</button>
-        <button id="editBtn" onclick="editMovie()">Edit Movie</button>
+        <button id="editBtn" onclick="editMovie()">Update Movie</button>
         <div id="movie-list"></div>
         <button id="back" onclick="navigateTo('moviesPage')">back to favorite movies</button>
-        <!-- <button onclick="logoutUser()">Logout</button> -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <p>Movie updated successfully!</p>
+                <button id="modal-ok-btn">OK</button>
+            </div>
+        </div>        
     </div>
 
     <script>

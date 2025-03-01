@@ -16,11 +16,10 @@ function addMovie() {
     request.onload = function() {
         const response = JSON.parse(request.responseText);
         if (response.status === 201 || response.status === 200) {
-            alert('הסרט נוסף בהצלחה!');
-            navigateTo('moviesPage');
+            showSuccessModal(); 
             loadMovies();
         } else {
-            alert('שגיאה בהוספת הסרט.');
+            alert("adding movie failed - please try again");
         }
       };
     const movieData = JSON.stringify({ name: name, year: year, rating: rating, image: image, adult: adult, genre: genre });
@@ -39,10 +38,9 @@ function deleteMovie(id) {
     request.onload = function() {
     const moviesResponse = JSON.parse(request.responseText);
     if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
-        // alert('הסרט נמחק בהצלחה');
         loadMovies();
     } else {
-        alert('שגיאה בעת מחיקת הסרט');
+        alert("deleting movie failed - please try again");
     }
     };
     request.send();
@@ -65,7 +63,7 @@ function getMovie(id) {
                 checkbox.checked = selectedGenres.includes(checkbox.value);
             });
         } else {
-            alert('שגיאה בעת העלאת הסרט');
+            alert("loading movie failed - please try again");
         }
     };
     request.send();
@@ -82,39 +80,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadMovies() {
     //Putting default movies into a rich initial state
-    username = localStorage.getItem("currentUser")
+    username = localStorage.getItem("currentUser");
+    document.getElementById("hi").textContent = `Hi, ${username}!`;
     const key = `${username}Movie`;
     const isMoviesAreEmpty = localStorage.getItem(key);
+    
     if (!isMoviesAreEmpty) {
         const id = Date.now().toString();
         const movies = [
             {
-              name: "Inception",
-              year: 2010,
-              rating: 98,
-              image: "https://m.media-amazon.com/images/I/912AErFSBHL._AC_UF894,1000_QL80_.jpg",
-              genre: ["Sci-Fi", "Action"],
-              adult: false,
+              name: "Jumanji",
+              year: 2017,
+              rating: 9,
+              image: "https://m.media-amazon.com/images/M/MV5BZjI5MzdmODctYjA4NS00ZmMxLWJlOWUtOGVhMjA0OGMxMWYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+              genre: ["comedy", "action"],
+              adult: true,
               id: id,
             },
             {
               name: "The Dark Knight",
               year: 2008,
-              rating: 85,
+              rating: 8,
               image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-              genre: ["Action", "Crime", "Drama"],
+              genre: ["action", "drama"],
               adult: false,
               id: id+1,
             },
             {
-              name: "Interstellar",
-              year: 2008,
-              rating: 92,
-              image: "https://m.media-amazon.com/images/I/91JnoM0khKL._AC_UF894,1000_QL80_.jpg",
-              genre: ["Action", "Crime", "Drama"],
+              name: "Garfield",
+              year: 2024,
+              rating: 10,
+              image: "https://static.wikia.nocookie.net/filmguide/images/4/4a/The_Garfield_Movie_poster.jpg/revision/latest?cb=20240409042827",
+              genre: ["comedy", "animation"],
               adult: false,
               id: id+2,
-            }];
+            },
+            {
+                name: "Smurfs",
+                year: 2011,
+                rating: 7,
+                image: "https://m.media-amazon.com/images/M/MV5BNzQxNDYyNTQtYjg1OC00OGJiLTk2YjMtZjZjZDgwOWFlOTJjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                genre: ["comedy", "animation"],
+                adult: false,
+                id: id+2,
+              }];
             localStorage.setItem(key, JSON.stringify(movies));
     }    
 
@@ -149,7 +158,7 @@ function loadMovies() {
             moviesList.appendChild(addCard);
 
         } else {
-            alert('שגיאה בהעלאת הסרטים.');
+            alert("loading movies failed - please try again");
         }
     };
     request.send();
@@ -171,13 +180,28 @@ function editMovie(){
     request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
         if (moviesResponse.status === 201 || moviesResponse.status === 200) {
-            alert('הסרט עודכן בהצלחה');    
-            navigateTo('moviesPage');
+            showSuccessModal(); 
         } else {
-            alert('שגיאה בעת עדכון הסרט');
+            alert("Update failed - please try again");
         }
     };
     const movieData = JSON.stringify({ name: name, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
 }
 
+function showSuccessModal() {
+    const modal = document.getElementById("success-modal");
+    const okButton = document.getElementById("modal-ok-btn");
+
+    modal.style.display = "flex"; 
+
+    okButton.onclick = () => {
+        modal.style.display = "none";
+        navigateTo("moviesPage");
+    };
+
+    setTimeout(() => {
+        modal.style.display = "none";
+        navigateTo("moviesPage");
+    }, 1500);
+}

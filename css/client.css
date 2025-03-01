@@ -264,7 +264,7 @@ input:checked + .slider:before {
 .movie-card img {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 5px;
 }
 
@@ -333,15 +333,21 @@ input:checked + .slider:before {
 }
 
 #moviesContainer {
-    width: 100%; /* שיהיה רוחב מלא */
-    max-width: 800px; /* אפשר לשנות לפי הצורך */
-    height: 250px; /* גובה מקסימלי כדי להגביל את הגלילה */
-    overflow-y: auto; /* גלילה רק אנכית */
-    border: 1px solid #ccc; /* מסגרת דקה */
-    padding: 10px;
+    width: max(50vw, 400px); /* מינימום 400px, אחרת יתפוס חצי מסך */
+    max-width: 90vw; /* לא יגדל יותר מ-90% מרוחב המסך */
+    min-height: 200px; /* מינימום גובה להתחלה */
+    max-height: 80vh; /* מקסימום גובה כדי למנוע גלילה בלתי נגמרת */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 15px;
     background: #6f1a1a;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* מתאים את עצמו לפי כמות הסרטים */
+    grid-auto-rows: auto; /* כל שורה בגובה שמתאים לה */
+    gap: 15px;
+    justify-content: center;
+    align-content: start;
 }
-
 
 #moviesGrid {
     display: flex;
@@ -383,9 +389,9 @@ input:checked + .slider:before {
     background: rgba(255, 255, 255, 0.2);
     color: white;
     border: none;
-    font-size: 16px; /* הקטנת האייקון */
-    width: 40px; 
-    height: 40px; 
+    font-size: 20px; 
+    width: 50px; 
+    height: 50px; 
     border-radius: 50%;
     cursor: pointer;
     display: flex;

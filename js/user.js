@@ -6,6 +6,9 @@ function navigateTo(section, type = "") {
         return;
     }
 
+    document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
+    page.classList.remove("hidden");
+
     if (section === "moviesPage") {
         document.getElementById("background").style.display = "none";
         //to cleabn the manage fage.
@@ -34,9 +37,6 @@ function navigateTo(section, type = "") {
             document.getElementById("editBtn").style.display = "";
         }
     }
-
-    document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
-    page.classList.remove("hidden");
 }
 
 // מחכה לטעינת העמוד ומגדיר ניתוב מתאים

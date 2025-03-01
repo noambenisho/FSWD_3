@@ -17,6 +17,7 @@ function addMovie() {
         const response = JSON.parse(request.responseText);
         if (response.status === 201 || response.status === 200) {
             alert('הסרט נוסף בהצלחה!');
+            navigateTo('moviesPage');
             loadMovies();
         } else {
             alert('שגיאה בהוספת הסרט.');
@@ -167,8 +168,9 @@ function editMovie(){
     request.open('PUT', `/api/movies/${name}`, true);
     request.onload = function() {
         const moviesResponse = JSON.parse(request.responseText);
-        if (moviesResponse.status === 201 || moviesResponse.status === 200) {    
-            // alert('הסרט עודכן בהצלחה');
+        if (moviesResponse.status === 201 || moviesResponse.status === 200) {
+            alert('הסרט עודכן בהצלחה');    
+            navigateTo('moviesPage');
         } else {
             alert('שגיאה בעת עדכון הסרט');
         }

@@ -1,15 +1,21 @@
 const MoviesDB = {
-    getMovies: () => JSON.parse(localStorage.getItem('movies')) || [],
+    
+    getMovies: () => {
+        movies = getCurrentUserNameMovies();
+        return JSON.parse(localStorage.getItem(movies)) || []
+    },
     addMovie: (movie) => {
         const movies = MoviesDB.getMovies();
         movie.id = Date.now().toString();
         movies.push(movie);
-        localStorage.setItem('movies', JSON.stringify(movies));
+        nameList = getCurrentUserNameMovies();
+        localStorage.setItem(nameList, JSON.stringify(movies));
     },
     deleteMovie: (id) => {
         let movies = MoviesDB.getMovies();
         movies = movies.filter(movie => movie.id !== id);
-        localStorage.setItem('movies', JSON.stringify(movies));
+        nameList = getCurrentUserNameMovies();
+        localStorage.setItem(nameList, JSON.stringify(movies));
     },
     getMovie: (id) => {
         const movies = MoviesDB.getMovies();
@@ -21,7 +27,8 @@ const MoviesDB = {
         movies = movies.map(movie => 
             movie.name === updatedMovie.name ? { ...movie, ...updatedMovie } : movie
         );
-        localStorage.setItem('movies', JSON.stringify(movies));
+        nameList = getCurrentUserNameMovies();
+        localStorage.setItem(nameList, JSON.stringify(movies));
     },
 };
 const AuthDB = {
@@ -32,3 +39,9 @@ const AuthDB = {
         localStorage.setItem('users', JSON.stringify(users));
     },
 };
+
+
+function getCurrentUserNameMovies() {
+    username = localStorage.getItem("currentUser")
+    return key = `${username}Movie`;
+} 

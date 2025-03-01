@@ -82,7 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadMovies() {
     //Putting default movies into a rich initial state
-    const isMoviesAreEmpty = localStorage.getItem("movies");
+    username = localStorage.getItem("currentUser")
+    const key = `${username}Movie`;
+    const isMoviesAreEmpty = localStorage.getItem(key);
     if (!isMoviesAreEmpty) {
         const id = Date.now().toString();
         const movies = [
@@ -113,7 +115,7 @@ function loadMovies() {
               adult: false,
               id: id+2,
             }];
-        localStorage.setItem("movies", JSON.stringify(movies));
+            localStorage.setItem(key, JSON.stringify(movies));
     }    
 
     const request = new FXMLHttpRequest();

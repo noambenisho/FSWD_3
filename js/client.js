@@ -125,7 +125,7 @@ function loadMovies() {
                 image: "https://m.media-amazon.com/images/M/MV5BNzQxNDYyNTQtYjg1OC00OGJiLTk2YjMtZjZjZDgwOWFlOTJjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
                 genre: ["comedy", "animation"],
                 adult: false,
-                id: id+2,
+                id: id+3,
               }];
             localStorage.setItem(key, JSON.stringify(movies));
     }    

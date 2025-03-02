@@ -9,7 +9,10 @@ function addMovie() {
     }
     let adult = document.getElementById("movie-adult").checked;
     let genre = Array.from(document.querySelectorAll("#movie-genre input[name='genres']:checked")).map(checkbox => checkbox.value);
-    if (!name) return;
+    if (!name) {
+        alert("Please enter movie name");
+        return;
+    }
 
     const request = new FXMLHttpRequest();
     request.open('POST', '/api/movies', true);

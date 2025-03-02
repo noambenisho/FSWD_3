@@ -61,7 +61,7 @@ function registerUser(event) {
         const response = JSON.parse(xhr.responseText);
         if (xhr.status === 200 && response.success) {
             localStorage.setItem("currentUser", response.username);
-            //alert("Registration successful! Redirecting...");
+            loadMovies();
             navigateTo("moviesPage");
         } else {
             alert(response.message);

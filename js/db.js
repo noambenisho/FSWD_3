@@ -87,7 +87,6 @@ const MoviesDB = {
     }
 };
 
-
 const AuthDB = {
     getUsers: () => JSON.parse(localStorage.getItem('users')) || [],
     addUser: (user) => {

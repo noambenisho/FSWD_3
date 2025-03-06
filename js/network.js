@@ -4,8 +4,8 @@ const Network = {
         console.log(`Network: Sending ${method} request to ${url}`);
 
         const randomValue = Math.random();  // קבלת מספר רנדומלי בין 0 ל-1
-        //if (randomValue < 0) {
-        if (randomValue < 0.25) {
+        if (randomValue < 0) {
+        //if (randomValue < 0.25) {
             callback({ status: 0, message: 'Failed to fetch' });
             return;
         }

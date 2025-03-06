@@ -85,51 +85,7 @@ function loadMovies() {
     //Putting default movies into a rich initial state
     username = localStorage.getItem("currentUser");
     document.getElementById("hi").textContent = `Hi, ${username}!`;
-    const key = `${username}Movie`;
-    const isMoviesAreEmpty = localStorage.getItem(key);
     
-    if (!isMoviesAreEmpty) {
-        const id = Date.now().toString();
-        const movies = [
-            {
-              name: "Jumanji",
-              year: 2017,
-              rating: 9,
-              image: "https://m.media-amazon.com/images/M/MV5BZjI5MzdmODctYjA4NS00ZmMxLWJlOWUtOGVhMjA0OGMxMWYzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-              genre: ["comedy", "action"],
-              adult: true,
-              id: id,
-            },
-            {
-              name: "The Dark Knight",
-              year: 2008,
-              rating: 8,
-              image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
-              genre: ["action", "drama"],
-              adult: false,
-              id: id+1,
-            },
-            {
-              name: "Garfield",
-              year: 2024,
-              rating: 10,
-              image: "https://static.wikia.nocookie.net/filmguide/images/4/4a/The_Garfield_Movie_poster.jpg/revision/latest?cb=20240409042827",
-              genre: ["comedy", "animation"],
-              adult: false,
-              id: id+2,
-            },
-            {
-                name: "Smurfs",
-                year: 2011,
-                rating: 7,
-                image: "https://m.media-amazon.com/images/M/MV5BNzQxNDYyNTQtYjg1OC00OGJiLTk2YjMtZjZjZDgwOWFlOTJjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-                genre: ["comedy", "animation"],
-                adult: false,
-                id: id+3,
-              }];
-            localStorage.setItem(key, JSON.stringify(movies));
-    }    
-
     const request = new FXMLHttpRequest();
     request.open('GET', '/api/movies', true);
     request.onload = function() {

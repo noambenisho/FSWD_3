@@ -53,7 +53,7 @@ function registerUser(event) {
     const gender = document.querySelector("#gender-toggle").checked ? "Female" : "Male";
     const genres = Array.from(document.querySelectorAll("#signup-form input[name='genres']:checked")).map(checkbox => checkbox.value);
 
-    const requestData = { username, email, password, age, gender, genres };
+    const requestData = { username, email, password, age, gender, genres, default_movies_loaded: false };
 
     const xhr = new FXMLHttpRequest();
     xhr.open("POST", "/api/auth/register");

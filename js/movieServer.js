@@ -1,6 +1,9 @@
 const MovieServer = {
     handleRequest: (method, url, data, callback) => {
         const id = url.split('/').pop();
+        const user = localStorage.getItem("currentUser"); 
+        MoviesDB.loadDefaultMovies(user);
+
         if (method === 'GET' && id === "movies") {// בלי אינדקס 
             const movies = MoviesDB.getMovies();
             callback({status : 201, message : movies});
@@ -18,7 +21,8 @@ const MovieServer = {
         } else if (method === 'DELETE') {
             MoviesDB.deleteMovie(id);
             callback({ status: 200, message: 'Movie deleted successfully' });
+        } else {
+            callback({ status: 400, message: 'Invalid request' });
         }
-
     }
 };

@@ -33,7 +33,7 @@ const MoviesDB = {
         user = AuthDB.getUserByName(username);
 
         // Check if default movies were already loaded for this user
-        if (user.default_movies_loaded) return;
+        if (user && user.default_movies_loaded) return;
 
         // Check if the user already has movies
         const existingMovies = JSON.parse(localStorage.getItem(userMoviesKey)) || [];

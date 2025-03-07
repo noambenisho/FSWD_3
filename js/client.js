@@ -20,19 +20,18 @@ function addMovie() {
         const response = JSON.parse(request.responseText);
         if (response.status === 201 || response.status === 200) {
             showSuccessModal(); 
-            loadMovies();
+            document.getElementById("movie-title").value = "";
+            document.getElementById("movie-year").value = "";
+            document.getElementById("movie-rating").value = "";
+            document.getElementById("movie-poster").value = "";         
+            document.getElementById("movie-adult").checked = false;
+            document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
         } else {
             alert("adding movie failed - please try again");
         }
       };
     const movieData = JSON.stringify({ name: name, year: year, rating: rating, image: image, adult: adult, genre: genre });
     request.send(movieData);
-    document.getElementById("movie-title").value = "";
-    document.getElementById("movie-year").value = "";
-    document.getElementById("movie-rating").value = "";
-    document.getElementById("movie-poster").value = "";         
-    document.getElementById("movie-adult").checked = false;
-    document.querySelectorAll("#movie-genre input[name='genres']:checked").forEach(checkbox => checkbox.checked = false);
 }
 
 function deleteMovie(id) {
@@ -117,7 +116,8 @@ function loadMovies() {
             moviesList.appendChild(addCard);
 
         } else {
-            alert("loading movies failed - please try again");
+            alert("loading movies failed - please press ok to try again");
+            loadMovies();
         }
     };
     request.send();
@@ -157,10 +157,12 @@ function showSuccessModal() {
     okButton.onclick = () => {
         modal.style.display = "none";
         navigateTo("moviesPage");
+        loadMovies();
     };
 
     setTimeout(() => {
         modal.style.display = "none";
         navigateTo("moviesPage");
+        loadMovies();
     }, 1500);
 }

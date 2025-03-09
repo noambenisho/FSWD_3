@@ -29,6 +29,7 @@ const MoviesDB = {
         localStorage.setItem(nameList, JSON.stringify(movies));
     },
     loadDefaultMovies: (username) => {
+        if (!username) return;
         const userMoviesKey = `${username}Movie`;
         user = AuthDB.getUserByName(username);
 
